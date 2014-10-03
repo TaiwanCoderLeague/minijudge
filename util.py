@@ -1,6 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""Utility functions module
+
+All functions that will be reused all over again should be placed in this module. 
+"""
+
 from handlers import *
 from google.appengine.api import users
 
