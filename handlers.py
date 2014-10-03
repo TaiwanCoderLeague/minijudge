@@ -6,8 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from webapp2_extras.appengine.users import *
-import urllib
-import cgi
+import requests, cgi, urlparse
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -58,33 +57,36 @@ class MiniJudge(BaseHandler):
     def post(self):
 
         success = False
-        url = ''
-        url = self.request.get('inputURL')
+        url = urlparse.urlparse(self.request.get('inputURL'))
 
-        msg = ''
-        if url:
-            url = cgi.escape(url)
+        if url.netloc.endswith(".appspot.com"):
+            #url = cgi.escape(url)
             print url
             try:
-                u = urllib.urlopen(url)
+                u = requests.get(url.geturl())
 
                 # see if 200 or 404
 
-                code = u.getcode()
-                if code == 200:
-                    msg = 'Congrat! we ping %s successfully.' % url
+                if u.ok:
+                    msg = 'Congrat! we ping {0} successfully.'.format(url.geturl())
                     success = True
-                elif code == 404:
-                    msg = 'Sorry, 404 not found on %s.' % url
                 else:
-                    msg = 'we encounter some tough situation.%s' % code
+                    msg = 'Sorry, 404 not found on {0}.'.format(url.geturl())
             except:
+                msg = 'We encounter some tough situation.'
 
-                msg = 'we encounter some tough situation.'
+        elif url.netloc:
+            msg = "It seems like you didn't deploy on GAE, your URL should be like: \"foo.appspot.com\""
+
+        elif not url.geturl():
+            msg = 'No url input.'
+
         else:
-            msg = 'no url input.'
+            msg = "Invalid URL."
 
-        self.updateUser(url, success, msg)
+        
+
+        self.updateUser(url.geturl(), success, msg)
         self.render('minijudge.html', msg=msg, nickname=self.nickname())
 
         if success:
