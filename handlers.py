@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from webapp2_extras.appengine.users import *
-import requests, cgi, urlparse
+from independent_unit import *
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -56,37 +56,10 @@ class MiniJudge(BaseHandler):
 
     def post(self):
 
-        success = False
-        url = urlparse.urlparse(self.request.get('inputURL'))
+        (url, success, msg) = ping_url(url=self.request.get('inputURL'))
+        print (url, success, msg)
 
-        if url.netloc.endswith(".appspot.com"):
-            #url = cgi.escape(url)
-            print url
-            try:
-                u = requests.get(url.geturl())
-
-                # see if 200 or 404
-
-                if u.ok:
-                    msg = 'Congrat! we ping {0} successfully.'.format(url.geturl())
-                    success = True
-                else:
-                    msg = 'Sorry, 404 not found on {0}.'.format(url.geturl())
-            except:
-                msg = 'We encounter some tough situation.'
-
-        elif url.netloc:
-            msg = "It seems like you didn't deploy on GAE, your URL should be like: \"foo.appspot.com\""
-
-        elif not url.geturl():
-            msg = 'No url input.'
-
-        else:
-            msg = "Invalid URL."
-
-        
-
-        self.updateUser(url.geturl(), success, msg)
+        self.updateUser(url, success, msg)
         self.render('minijudge.html', msg=msg, nickname=self.nickname())
 
         if success:
