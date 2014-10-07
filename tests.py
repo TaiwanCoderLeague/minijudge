@@ -32,6 +32,14 @@ class TestPingUrl(unittest.TestCase):
                          'It seems like you didn\'t deploy on GAE, your URL should be like: "foo.appspot.com"'
                          ))
 
+    def test_404Url(self):
+        url = 'http://pointlesstire.appspot.com/this_is_404'
+        self.assertEqual(ping_url(url),
+                         ('http://pointlesstire.appspot.com/this_is_404'
+                         , False,
+                         'Sorry, 404 not found on http://pointlesstire.appspot.com/this_is_404.'
+                         ))
+
 
 # if __name__ == '__main__':
 #    unittest.main()
