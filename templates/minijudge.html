@@ -5,6 +5,16 @@
         <legend>Paste your GAE url here</legend>
         <fieldset>
             <div class="form-group">
+                <label class="col-lg-2 control-label">Your problem set</label>
+                <div class="col-lg-10">
+                    <select class="form-control" name="pb_set">
+                        {% for p in problem_sets: %}
+                        <option>{{p}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-lg-2 control-label">URL</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" name="inputURL">

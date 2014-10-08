@@ -7,6 +7,30 @@
     </p>
 </div>
 
+<h1>Recent Submissions</h1>
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>作業名稱</th>
+            <th>網址</th>
+            <th>MiniJudge表示</th>
+            <th>更新時間</th>
+        </tr>
+    </thead>
+    <tbody>{% for submission in submissions: %}
+        <tr>
+            <td>{{submission.name}}</td>
+            <td>{{submission.pb_set}}</td>
+            <td><a href="{{submission.url}}">{{submission.url}}</a>
+            </td>
+            <td>{{submission.msg}}</td>
+            <td>{{submission.updated}}</td>
+        </tr>
+    </tbody>
+    {%endfor%}
+</table>
+
 <h1>大家的gae網址</h1>
 {% for user in users: %}
 <div class="panel panel-default">
