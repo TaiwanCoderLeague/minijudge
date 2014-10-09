@@ -10,7 +10,7 @@
 <h1>大家的gae網址</h1>
 {% for user in users: %}
 <div class="panel panel-default">
-    <h2>{{user.name}}<small>於{{user.created}}</small></h2>
+    <h2>{{user.name}}<small>於{{user.created_time}}</small></h2>
     <a href="{{user.site}}">{{user.site}}</a>
     {% if user.is_success %}<span class="label label-success">驗證成功</span>
     {% else %}<span class="label label-danger">驗證失敗</span> {% endif %}

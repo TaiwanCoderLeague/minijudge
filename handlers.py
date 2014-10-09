@@ -8,7 +8,6 @@ from google.appengine.ext import ndb
 from webapp2_extras.appengine.users import *
 from independent_unit import *
 
-
 class MainHandler(webapp2.RequestHandler):
 
     def get(self):
@@ -84,6 +83,7 @@ class MiniJudge(BaseHandler):
                 u.site = url
                 u.is_success = is_success
                 u.msg = msg
+
                 u.put()
             else:
                 print 'This user is not yet in db, storing now'
@@ -100,7 +100,7 @@ class User(ndb.Model):
     is_success = ndb.BooleanProperty()
     msg = ndb.StringProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
-
+    #created_time = ndb.StringProperty()
     @classmethod
     def by_id(cls, uid):
         return User.get_by_id(uid, parent=users_key())
@@ -151,6 +151,8 @@ class DashBoard(BaseHandler):
 
     def get(self):
         users = User.query_all()
+        for user in users:
+            user.created_time = judgeTime(user.created)
         self.render('dashboard.html', users=users)
 
 
