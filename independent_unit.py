@@ -11,7 +11,7 @@ import cgi
 import urlparse
 
 def judgeTime(created):
-
+    #declare variables
     host_current_time = datetime.datetime.now().isoformat()
     created = created.isoformat()
 
@@ -30,6 +30,7 @@ def judgeTime(created):
     hostSec = int(host_current_time[17:19])#46 s
 
     createdTIME = 'Error'
+    #Judege
     if hostYear > createdYear:
         if hostYear - createdYear > 1:
             createdTIME = '%d years ago' %(hostYear - createdYear)

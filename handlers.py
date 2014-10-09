@@ -151,6 +151,7 @@ class DashBoard(BaseHandler):
 
     def get(self):
         users = User.query_all()
+        # Implement timeago to "users"
         for user in users:
             user.created_time = judgeTime(user.created)
         self.render('dashboard.html', users=users)
