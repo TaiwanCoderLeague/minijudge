@@ -107,6 +107,7 @@ class MiniJudge(BaseHandler):
                 u.site = url
                 u.is_success = is_success
                 u.msg = msg
+
                 u.put()
             else:
                 print 'This user is not yet in db, storing now'
