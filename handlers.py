@@ -176,7 +176,7 @@ class User(ndb.Model):
 
     @classmethod
     def by_id(cls, uid):
-        return User.get_by_id(uid, parent=users_key())
+        return User.get_by_id(uid)
 
 #    @classmethod
 #    def by_name(cls, name):
@@ -224,5 +224,18 @@ class DashBoard(BaseHandler):
         submissions = Submissions.query_all()
         self.render('dashboard.html', users=users,
                     submissions=submissions)
+
+
+class ProfilePage(BaseHandler):
+
+    def get(self, uid):
+
+        users = ndb.gql('SELECT * FROM User WHERE uid = :1', uid)
+        u = users.get()
+        submissions = Submissions.query(Submissions.uid == uid)
+        if u:
+            self.render('profile.html', user=u, submissions=submissions)
+        else:
+            self.redirect('/')
 
 

@@ -5,4 +5,5 @@ import handlers
 
 _routes = [('/', handlers.DashBoard), ('/test', handlers.TestHandler),
            ('/user', handlers.UserHandler), ('/minijudge',
-           handlers.MiniJudge)]
+           handlers.MiniJudge), ('/profile/(\d+)',
+           handlers.ProfilePage)]

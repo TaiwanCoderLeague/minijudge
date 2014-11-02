@@ -20,7 +20,8 @@
     </thead>
     <tbody>{% for submission in submissions: %}
         <tr>
-            <td>{{submission.name}}</td>
+            <td><a href="/profile/{{submission.uid}}">{{submission.name}}</a>
+            </td>
             <td>{{submission.pb_set}}</td>
             <td><a href="{{submission.url}}">{{submission.url}}</a>
             </td>
